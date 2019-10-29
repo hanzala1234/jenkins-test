@@ -3,24 +3,23 @@ node{
     stage('checkout'){
                  checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bitbucket-creds', url: 'https://bitbucket.org/fairytalyo/fairy-endgame.git']]])
     }
+  
     stage('Building docker images'){
-        sh 'ls'
-        sh "docker info" 
-        image = docker.build("muhammadhanzala/jenkins-demo:${env.BUILD_ID}")
+        sh "docker build -t eu.gcr.io/fairylend-dev/fairy-client client/"
+        
+        
         
     }
-    stage('Pushing docker images'){
-        withDockerRegistry(credentialsId: 'DOCKER_ID') {
-            image.push("v${env.BUILD_ID}");
+//     stage('Pushing docker images'){
+//         withDockerRegistry(credentialsId: 'DOCKER_ID') {
+//             image.push("v${env.BUILD_ID}");
 
-}
-   stage('removing old container'){
- 	sh label: '', script: '''docker ps -a | awk \'{ print $1,$2 }\' | grep -i muhammadhanzala/jenkins-demo | awk \'{ print $1 }\' | xargs docker stop
-'''
-    }
-   stage('running Docker container'){
-	image.run('-d -p 8060:8060')
+// }
 
+//    stage('running Docker container'){
+// 	image.run('-d -p 8060:8060')
+
+// }
+    
 }
-    }
 }
