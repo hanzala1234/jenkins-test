@@ -1,8 +1,7 @@
 node{
    def image 
     stage('checkout'){
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/hanzala1234/jenkins-pract.git']]])
-                 
+                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bitbucket-creds', url: 'https://bitbucket.org/fairytalyo/fairy-endgame.git']]])
     }
     stage('Building docker images'){
         sh 'ls'
