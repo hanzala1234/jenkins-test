@@ -3,9 +3,10 @@ node{
     stage('checkout'){
                  checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bitbucket-creds', url: 'https://bitbucket.org/fairytalyo/fairy-endgame.git']]])
     }
-  
+       
     stage('Building docker images'){
-        sh "docker build -t eu.gcr.io/fairylend-dev/fairy-client client/"
+        sh "SHA=$(git rev-parse HEAD)"
+        sh "docker build -t eu.gcr.io/fairylend-dev/fairy-client:${SHA} client/"
         
         
         
